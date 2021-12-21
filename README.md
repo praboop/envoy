@@ -11,10 +11,10 @@
    i. Start http service in local host running on port 8000
 
 2. Run start_docker_envoy.sh
-     i. Starts envoy proxy in docker container
-    ii. Command line arg -p : 80 localhost port is mapped to port 10000 in envoy.
-   iii. Command line arg -v : local envoy files are mapped to file-paths in docker container that would be used by envoy runtime.
-  iiii. envoyproxy/envoy:v1.20-latest : version of envoy docker would pull from github.
+     - Starts envoy proxy in docker container
+     - Command line arg -p : 80 localhost port is mapped to port 10000 in envoy.
+     - Command line arg -v : local envoy files are mapped to file-paths in docker container that would be used by envoy runtime.
+     - envoyproxy/envoy:v1.20-latest : version of envoy docker would pull from github.
 
 3. Launch Apache Jmeter
    - In Test Plan, add Thread Group
