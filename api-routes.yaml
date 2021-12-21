@@ -1,0 +1,30 @@
+resources:
+  - "@type": type.googleapis.com/envoy.config.route.v3.RouteConfiguration
+    name: api_routes
+    virtual_hosts:
+      - name: api_all_domains
+        domains: ["*"]
+        routes:
+          - match: { path: /foo }
+            route: { cluster: service_protected_by_rate_limit }
+
+          - match: { prefix: /foo/bar }
+            route: { cluster: service_protected_by_rate_limit }
+            typed_per_filter_config:
+              envoy.filters.http.local_ratelimit:
+                "@type": type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+                stat_prefix: route2_rate_limit
+                token_bucket:
+                  max_tokens: 10
+                  tokens_per_fill: 10
+                  fill_interval: 1s
+                filter_enabled:
+                  runtime_key: route2_limit_enabled
+                  default_value:
+                    numerator: 100
+                    denominator: HUNDRED
+                filter_enforced:
+                  runtime_key: route2_limit_enforced
+                  default_value:
+                    numerator: 100
+                    denominator: HUNDRED
